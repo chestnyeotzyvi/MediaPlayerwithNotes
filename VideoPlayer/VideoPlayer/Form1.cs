@@ -18,6 +18,7 @@ namespace VideoPlayer
         string pathFolder = "";
         bool modeFolder;
         bool filterNotes;
+        bool editDataGridCell;
         Form2 f2 = new Form2();
         Form3 f3 = new Form3();
         Form4 f4 = new Form4();
@@ -30,7 +31,12 @@ namespace VideoPlayer
             WMP.settings.rate = 1.00;
             openFileDialog1.FileName = "";
             modeFolder = false;
-            filterNotes = false;            
+            filterNotes = false;
+
+            //file = @"F:\Видеоплеер копия\300622\01 Вопросы материализации.mp4";
+            //openFileDialog1.FileName = file;
+            editDataGridCell = false;
+          
         }
 
         private void OpenFileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -99,12 +105,13 @@ namespace VideoPlayer
                     panel1.Height = WMP.Height - 45;
                     panel1.Visible = true;
                 }
-
             }
 
 
-            if (e.KeyCode == Keys.PageDown)
+            if (e.KeyCode == Keys.Space)
             {
+              if (editDataGridCell)
+                    return;
               WMP.Ctlenabled = false;
               e.Handled = true;
               if (WMP.playState == WMPPlayState.wmppsPaused)
@@ -123,59 +130,75 @@ namespace VideoPlayer
 
             if (e.KeyCode == Keys.Right)
             {
+                if (editDataGridCell)
+                    return;
                 WMP.Ctlenabled = false;
                 e.Handled = true;
-                if (WMP.playState == WMPPlayState.wmppsPlaying)
+                WMP.Focus();
+
+                if (WMP.playState == WMPPlayState.wmppsPlaying) 
                 {
-                 //MessageBox.Show("Right");
-                 temp = WMP.settings.rate.ToString();
-                 if (WMP.settings.rate<1.9)
+                    if ((WMP.settings.rate > 0.89) && (WMP.settings.rate<1.00))
+                    {
+                        WMP.settings.rate = 1.00;
+                        this.Text = "Скорость воспроизведения: 1.00";
+                        return;
+                    }
+                    if (WMP.settings.rate<1.9)
                  {
-                    WMP.settings.rate = WMP.settings.rate + 0.10;
+                    WMP.settings.rate = WMP.settings.rate + 0.10;                    
                     WMP.Ctlcontrols.pause();
                     WMP.Ctlcontrols.play();
-                    temp = WMP.settings.rate.ToString();
-                    speed = Math.Round(WMP.settings.rate, 3);
-                    if (!(temp == "1"))
-                    {
-                        temp = temp.Substring(0, 4);
-                        this.Text = "Скорость воспроизведения: " + speed.ToString();
-                    }
-                    else
-                        this.Text = "";
                  }
-                }
-                return;
-            }
+                    speed = Math.Round(WMP.settings.rate, 3);
+                    temp = WMP.settings.rate.ToString();
+
+                    if (!(temp == "1"))                    
+                        this.Text = "Скорость воспроизведения: " + speed.ToString();                    
+                    else
+                        this.Text = "Скорость воспроизведения: 1.00";
+                 
+                }              
+            }//Right
 
             if (e.KeyCode == Keys.Left)
             {
+                if (editDataGridCell)
+                    return;
                 WMP.Ctlenabled = false;
                 e.Handled = true;
+                WMP.Focus();
                 if (WMP.playState == WMPPlayState.wmppsPlaying)
                 {
-                    //MessageBox.Show("Left");
-                    WMP.settings.rate = WMP.settings.rate - 0.10;
-                    WMP.Ctlcontrols.pause();
-                    WMP.Ctlcontrols.play();
-                    temp = WMP.settings.rate.ToString();
-                    //MessageBox.Show("Затем: " + WMP.settings.rate.ToString());
-                    speed = Math.Round(WMP.settings.rate, 3);
-                    if (!(temp == "1"))
+                    if ((WMP.settings.rate < 1.09) && (WMP.settings.rate > 1.00))
                     {
-                        temp = temp.Substring(0, 4);
+                        WMP.settings.rate = 1.00;
+                        this.Text = "Скорость воспроизведения: 1.00";
+                        return;
+                    }
+                    if (WMP.settings.rate > 0.2)
+                    {
+                        //MessageBox.Show("Left");
+                        WMP.settings.rate = WMP.settings.rate - 0.10;
+                        WMP.Ctlcontrols.pause();
+                        WMP.Ctlcontrols.play();
+                    }
+                    speed = Math.Round(WMP.settings.rate, 3);
+                    temp = WMP.settings.rate.ToString();
+
+                    if (temp != "1")
+                    {
+                        //temp = temp.Substring(0, 4);
                         this.Text = "Скорость воспроизведения: " + speed.ToString();
                     }
                     else
-                        this.Text = "";
-                }
-                
-                return;
-            }
+                        this.Text = "Скорость воспроизведения: 1.00";
+                }     
+            }//Left
 
             if (e.KeyCode == Keys.Insert)
             {
-               if ((WMP.playState == WMPPlayState.wmppsUndefined) || (WMP.playState == WMPPlayState.wmppsStopped))
+                if ((WMP.playState == WMPPlayState.wmppsUndefined) || (WMP.playState == WMPPlayState.wmppsStopped) || (editDataGridCell))
                     return;
                WMP.Ctlenabled = false;
                e.Handled = true;
@@ -184,7 +207,7 @@ namespace VideoPlayer
 
             if (e.KeyCode == Keys.Delete)
             {
-                if ((WMP.playState == WMPPlayState.wmppsUndefined) || (WMP.playState == WMPPlayState.wmppsStopped))
+                if ((WMP.playState == WMPPlayState.wmppsUndefined) || (WMP.playState == WMPPlayState.wmppsStopped) || (editDataGridCell))
                     return;
                 WMP.Ctlenabled = false;
                 e.Handled = true;
@@ -194,15 +217,44 @@ namespace VideoPlayer
 
             if (e.KeyCode == Keys.Up)
             {
+                if (editDataGridCell)
+                    return;
                 WMP.settings.volume = WMP.settings.volume + 5; 
             }
 
             if (e.KeyCode == Keys.Down)
             {
+                if (editDataGridCell)
+                    return;
                 WMP.settings.volume = WMP.settings.volume - 5;
             }
 
+            if (e.KeyCode == Keys.PageDown)
+            {
+                if (editDataGridCell)
+                    return;
+                WMP.Ctlenabled = false;
+                e.Handled = true;
 
+                if (WMP.playState == WMPPlayState.wmppsPlaying)
+                {
+                    string str_position = WMP.Ctlcontrols.currentPositionString;
+
+                    if (str_position.Length == 5)
+                        str_position = "00:" + str_position;
+
+                    //this.Text = str_position;
+
+                    DateTime DateObj = Convert.ToDateTime(str_position);
+
+                    if (DateObj.TimeOfDay.TotalSeconds > 11)
+                    {
+                        DateObj = DateObj.AddSeconds(-10);
+                        WMP.Ctlcontrols.currentPosition = DateObj.TimeOfDay.TotalSeconds;
+                    }
+                }
+
+            }
         }//KeyDown
 
 
@@ -217,11 +269,36 @@ namespace VideoPlayer
                 dataGridView1.Focus();
             }
 
-            string temp_str = WMP.Ctlcontrols.currentPositionString;
-            if (temp_str.Length == 5) temp_str = "00:" + temp_str;
+            string str_position = WMP.Ctlcontrols.currentPositionString;
+
+            if (str_position.Length == 5)
+                str_position = "00:" + str_position;
+
+            //this.Text = str_position;
+
+            DateTime DateObj = Convert.ToDateTime(str_position);
+
+            if (DateObj.TimeOfDay.TotalSeconds > 5)
+             DateObj = DateObj.AddSeconds(-3);
+
+            string hh = DateObj.Hour.ToString();
+            if (hh.Length == 1)
+                hh = "0" + hh;
+
+            string mm = DateObj.Minute.ToString();
+            if (mm.Length == 1)
+                mm = "0" + mm;
+
+            string ss = DateObj.Second.ToString();
+            if (ss.Length == 1)
+                ss = "0" + ss;
+
+
+            str_position =  hh + ":" + mm + ":" + ss;
+
 
             dataGridView1.Rows.Add();
-            dataGridView1["Time", dataGridView1.Rows.Count - 1].Value = temp_str;
+            dataGridView1["Time", dataGridView1.Rows.Count - 1].Value = str_position;
             dataGridView1.CurrentCell = dataGridView1["Note", dataGridView1.Rows.Count - 1];
         }
 
@@ -235,6 +312,7 @@ namespace VideoPlayer
 
             int ind = dataGridView1.SelectedCells[0].RowIndex;
             dataGridView1.Rows.RemoveAt(ind);
+            WMP.Focus();
         }
 
         private void Save()
@@ -246,9 +324,9 @@ namespace VideoPlayer
             }
             for (int j = 0; j < dataGridView1.Rows.Count; j++)
             {
-                if (dataGridView1.Rows[j].Cells[1].Value.ToString().Length > 221)
+                if ((dataGridView1.Rows[j].Cells[1].Value != null) && (dataGridView1.Rows[j].Cells[1].Value.ToString().Length > 245))
                 {
-                    MessageBox.Show("Заметка в строчке №" + (j + 1).ToString() + " больше 221 символов" + "\n" + "Сохранение заметок невозможно!");
+                    MessageBox.Show("Заметка в строчке №" + (j + 1).ToString() + " больше 245 символов" + "\n" + "Сохранение заметок невозможно!");
                     dataGridView1.CurrentCell = dataGridView1["Note", j];
                     return;
                 }
@@ -279,6 +357,7 @@ namespace VideoPlayer
                 streamWriter.Close();
                 fs.Close();
                 MessageBox.Show("Заметки успешно сохранены");
+                WMP.Focus();
             }
             catch
             {
@@ -298,9 +377,9 @@ namespace VideoPlayer
             }
             for (int j = 0; j < dataGridView1.Rows.Count; j++)
             {
-                if (dataGridView1.Rows[j].Cells[1].Value.ToString().Length > 221)
+                if ((dataGridView1.Rows[j].Cells[1].Value != null) && (dataGridView1.Rows[j].Cells[1].Value.ToString().Length > 245))
                 {
-                    MessageBox.Show("Заметка в строчке №" + (j + 1).ToString() + " больше 221 символов" + "\n" + "Сохранение заметок невозможно!");
+                    MessageBox.Show("Заметка в строчке №" + (j + 1).ToString() + " больше 245 символов" + "\n" + "Сохранение заметок невозможно!");
                     dataGridView1.CurrentCell = dataGridView1["Note", j];
                     return;
                 }
@@ -331,6 +410,7 @@ namespace VideoPlayer
                 streamWriter.Close();
                 fs.Close();
                 MessageBox.Show("Заметки успешно сохранены");
+                WMP.Focus();
             }
             catch
             {
@@ -338,6 +418,7 @@ namespace VideoPlayer
                 streamWriter.Close();
                 fs.Close();
             }
+
         }
         private void buttonAdd_Click(object sender, EventArgs e)
         {
@@ -380,7 +461,8 @@ namespace VideoPlayer
             {
                 string str_position = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
                 DateTime DateObj = Convert.ToDateTime(str_position);
-                this.Text = DateObj.TimeOfDay.TotalSeconds.ToString();
+                WMP.Ctlcontrols.stop();
+                WMP.Ctlcontrols.currentPosition = 0;
                 WMP.Ctlcontrols.currentPosition = DateObj.TimeOfDay.TotalSeconds;
                 WMP.Ctlcontrols.play();
             }
@@ -418,6 +500,9 @@ namespace VideoPlayer
                         (currentFile.IndexOf(".webp") == -1) && (currentFile.IndexOf(".rar") == -1) && (currentFile.IndexOf(".iso") == -1) && (currentFile.IndexOf(".png") == -1) &&
                         (currentFile.IndexOf(".jpeg") == -1) && (currentFile.IndexOf(".zip") == -1) && (currentFile.IndexOf(".rtf") == -1) && (currentFile.IndexOf(".gif") == -1) &&
                         (currentFile.IndexOf(".djvu") == -1) && (currentFile.IndexOf(".txt") == -1) && (currentFile.IndexOf(".bmp") == -1) && (currentFile.IndexOf(".tif") == -1) &&
+                        (currentFile.IndexOf(".pptx") == -1) && (currentFile.IndexOf(".ppt") == -1) && (currentFile.IndexOf(".fb2") == -1) && (currentFile.IndexOf(".psd") == -1) &&
+                        (currentFile.IndexOf(".epub") == -1) && (currentFile.IndexOf(".dll") == -1) && (currentFile.IndexOf(".csv") == -1) && (currentFile.IndexOf(".inf") == -1) &&
+                        (currentFile.IndexOf(".mobi") == -1) && (currentFile.IndexOf(".js")  == -1) && (currentFile.IndexOf(".db")  == -1) && (currentFile.IndexOf(".cfg") == -1) &&
                         (currentFile.IndexOf(".docx") == -1) && (currentFile.IndexOf(".doc") == -1) && (currentFile.IndexOf(".url") == -1) && (currentFile.IndexOf(".jpg") == -1))
                     {
                         string temp = currentFile;
@@ -574,6 +659,21 @@ namespace VideoPlayer
            for (int j = 0; j < dataGridView1.Rows.Count; j++)
                if (dataGridView1.Rows[j].Cells[1].Value.ToString().LastIndexOf("!") != 0)               
                    dataGridView1.Rows[j].Visible = false;
+        }
+
+        private void dataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            editDataGridCell = true;
+        }
+
+        private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            editDataGridCell = false;
+        }
+
+        private void dataGridView1_CellEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            editDataGridCell = false;
         }
 
 

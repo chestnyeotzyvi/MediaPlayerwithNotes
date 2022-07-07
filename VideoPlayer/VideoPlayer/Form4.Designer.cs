@@ -127,7 +127,7 @@
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(89, 20);
             this.label8.TabIndex = 9;
-            this.label8.Text = "29.06.2022";
+            this.label8.Text = "07.07.2022";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Form4

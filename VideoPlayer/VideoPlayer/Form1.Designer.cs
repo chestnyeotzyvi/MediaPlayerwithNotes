@@ -46,6 +46,7 @@
             this.OpenFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ConcatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.filterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.HotKeyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AboutProgramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
@@ -54,7 +55,6 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.filterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.WMP)).BeginInit();
@@ -103,7 +103,8 @@
             dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle4;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(3, 3);
+            this.dataGridView1.Location = new System.Drawing.Point(0, 3);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
@@ -114,9 +115,12 @@
             this.dataGridView1.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(1194, 197);
+            this.dataGridView1.Size = new System.Drawing.Size(1200, 197);
             this.dataGridView1.TabIndex = 0;
+            this.dataGridView1.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridView1_CellBeginEdit);
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
+            this.dataGridView1.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellEndEdit);
+            this.dataGridView1.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellEnter);
             // 
             // Time
             // 
@@ -128,7 +132,7 @@
             this.Time.Name = "Time";
             this.Time.ReadOnly = true;
             this.Time.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.Time.Width = 90;
+            this.Time.Width = 85;
             // 
             // Note
             // 
@@ -138,7 +142,7 @@
             this.Note.HeaderText = "Заметка";
             this.Note.Name = "Note";
             this.Note.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.Note.Width = 1695;
+            this.Note.Width = 1706;
             // 
             // buttonDelete
             // 
@@ -207,6 +211,13 @@
             this.ConcatToolStripMenuItem.Size = new System.Drawing.Size(171, 20);
             this.ConcatToolStripMenuItem.Text = "Объединить файлы в папке";
             this.ConcatToolStripMenuItem.Click += new System.EventHandler(this.ConcatToolStripMenuItem_Click);
+            // 
+            // filterToolStripMenuItem
+            // 
+            this.filterToolStripMenuItem.Name = "filterToolStripMenuItem";
+            this.filterToolStripMenuItem.Size = new System.Drawing.Size(130, 20);
+            this.filterToolStripMenuItem.Text = "Фильтр заметок по !";
+            this.filterToolStripMenuItem.Click += new System.EventHandler(this.filterToolStripMenuItem_Click);
             // 
             // HotKeyToolStripMenuItem
             // 
@@ -289,13 +300,6 @@
             this.panel1.TabIndex = 25;
             this.panel1.Visible = false;
             // 
-            // filterToolStripMenuItem
-            // 
-            this.filterToolStripMenuItem.Name = "filterToolStripMenuItem";
-            this.filterToolStripMenuItem.Size = new System.Drawing.Size(130, 20);
-            this.filterToolStripMenuItem.Text = "Фильтр заметок по !";
-            this.filterToolStripMenuItem.Click += new System.EventHandler(this.filterToolStripMenuItem_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -337,8 +341,6 @@
         private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Time;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Note;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem;
         public AxWMPLib.AxWindowsMediaPlayer WMP;
         public System.Windows.Forms.DataGridView dataGridView1;
@@ -347,6 +349,8 @@
         private System.Windows.Forms.ToolStripMenuItem AboutProgramToolStripMenuItem;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ToolStripMenuItem filterToolStripMenuItem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Time;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Note;
     }
 }
 
