@@ -255,7 +255,21 @@ namespace VideoPlayer
                 }
 
             }
-        }//KeyDown
+
+            if (e.KeyCode == Keys.F1)
+            {
+                if (editDataGridCell)
+                    return;
+                AddSec();
+            }
+
+            if (e.KeyCode == Keys.F2)
+            {
+                if (editDataGridCell)
+                    return;
+                MinusSec();
+            }
+        }//Key
 
 
         private void AddStr()
@@ -676,8 +690,52 @@ namespace VideoPlayer
             editDataGridCell = false;
         }
 
+        private void AddSec()
+        {
+            if (dataGridView1.Rows.Count == 0)
+            {
+                this.Text = "Заметки отсутствуют";
+                return;
+            }
+            int ind = dataGridView1.SelectedCells[0].RowIndex;
+            string str = dataGridView1.Rows[ind].Cells[0].Value.ToString();
 
-                   
+            DateTime DateObj = Convert.ToDateTime(str);
+            DateObj = DateObj.AddSeconds(1);
+            string hour   = DateObj.Hour.ToString();
+            string minute = DateObj.Minute.ToString();
+            string second = DateObj.Second.ToString();
+            if (hour.Length == 1)   hour   = "0" + hour;
+            if (minute.Length == 1) minute = "0" + minute;
+            if (second.Length == 1) second = "0" + second;
+            str = hour + ":" + minute + ":" + second;
+                
+            dataGridView1.Rows[ind].Cells[0].Value = str;
+        }
 
+        private void MinusSec()
+        {
+            if (dataGridView1.Rows.Count == 0)
+            {
+                this.Text = "Заметки отсутствуют";
+                return;
+            }
+            int ind = dataGridView1.SelectedCells[0].RowIndex;
+            string str = dataGridView1.Rows[ind].Cells[0].Value.ToString();
+
+            DateTime DateObj = Convert.ToDateTime(str);
+
+            if (DateObj.TimeOfDay.TotalSeconds < 1) return;
+            DateObj = DateObj.AddSeconds(-1);
+            string hour = DateObj.Hour.ToString();
+            string minute = DateObj.Minute.ToString();
+            string second = DateObj.Second.ToString();
+            if (hour.Length == 1) hour = "0" + hour;
+            if (minute.Length == 1) minute = "0" + minute;
+            if (second.Length == 1) second = "0" + second;
+            str = hour + ":" + minute + ":" + second;
+
+            dataGridView1.Rows[ind].Cells[0].Value = str;
+        }
     }//Form1
 }//namespase

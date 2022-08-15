@@ -57,7 +57,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(99, 20);
             this.label3.TabIndex = 2;
-            this.label3.Text = "Версия 1.00";
+            this.label3.Text = "Версия 1.10";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label5
@@ -127,7 +127,7 @@
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(89, 20);
             this.label8.TabIndex = 9;
-            this.label8.Text = "07.07.2022";
+            this.label8.Text = "15.08.2022";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Form4

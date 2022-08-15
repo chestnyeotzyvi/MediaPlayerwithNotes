@@ -1,4 +1,3 @@
-F:\Проекты\Видеоплеер\VideoPlayer\VideoPlayer\obj\Debug\VideoPlayer.csprojResolveAssemblyReference.cache
 F:\Проекты\Видеоплеер\VideoPlayer\VideoPlayer\obj\Debug\Interop.WMPLib.dll
 F:\Проекты\Видеоплеер\VideoPlayer\VideoPlayer\obj\Debug\AxInterop.WMPLib.dll
 F:\Проекты\Видеоплеер\VideoPlayer\VideoPlayer\obj\Debug\VideoPlayer.csproj.ResolveComReference.cache
@@ -14,3 +13,5 @@ F:\Проекты\Видеоплеер\VideoPlayer\VideoPlayer\bin\Debug\MediaPl
 F:\Проекты\Видеоплеер\VideoPlayer\VideoPlayer\obj\Debug\MediaPlayerwithNotes.Properties.Resources.resources
 F:\Проекты\Видеоплеер\VideoPlayer\VideoPlayer\obj\Debug\MediaPlayerwithNotes.exe
 F:\Проекты\Видеоплеер\VideoPlayer\VideoPlayer\obj\Debug\MediaPlayerwithNotes.pdb
+F:\Проекты\Видеоплеер\VideoPlayer\VideoPlayer\obj\Debug\VideoPlayer.csprojAssemblyReference.cache
+F:\Проекты\Видеоплеер\VideoPlayer\VideoPlayer\obj\Debug\VideoPlayer.csproj.CoreCompileInputs.cache
